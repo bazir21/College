@@ -1,4 +1,7 @@
+import java.util.Random;
+
 // -------------------------------------------------------------------------
+
 
 /**
  *  This class contains static methods that implementing sorting of an array of numbers
@@ -17,7 +20,7 @@ class SortComparison {
 	 * @return array sorted in ascending order.
 	 *
 	 */
-	static double [] insertionSort (double a[]) {
+	static double[] insertionSort (double a[]) {
 		for (int i = 1; i < a.length; i++) { 
             double key = a[i];
             int j = i - 1;
@@ -37,7 +40,7 @@ class SortComparison {
 	 * @return array sorted in ascending order
 	 *
 	 */
-	static double [] selectionSort (double a[]) {
+	static double[] selectionSort (double a[]) {
 		for (int i = 0; i < a.length - 1; i++) 
 		{
 			int min = i;
@@ -60,11 +63,26 @@ class SortComparison {
 	 * @return array sorted in ascending order
 	 *
 	 */
-	static double[] quickSort (double a[], int low, int high) {
+	static double[] quickSort (double a[]) {
+		return quickSort(shuffle(a), 0, a.length / 2);
+	}
+	
+	private static double[] quickSort(double a[], int low, int high) {
 		if (low < high) {
 			int part = partition(a, low, high);
 			a = quickSort(a, low, part - 1);
 			a = quickSort(a, part + 1, high);
+		}
+		return a;
+	}
+	
+	private static double[] shuffle(double a[]) {
+		Random random = new Random();
+		for (int i = a.length - 1; i > 0; i--) {
+			int j = random.nextInt(i + 1);
+			double temp = a[i];
+			a[j] = a[i];
+			a[i] = temp;
 		}
 		return a;
 	}

@@ -1,3 +1,4 @@
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -33,8 +34,28 @@ public class SortComparisonTest
     {
     }
 
-
-    // TODO: add more tests here. Each line of code and ech decision in Collinear.java should
+    @Test
+    public void testInsertionSort() {
+    	double[] testArray = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    	double[] sortedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    	assertArrayEquals(sortedArray, SortComparison.insertionSort(testArray), 0);
+    }
+    
+    @Test
+    public void testSelectionSort() {
+    	double[] testArray = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    	double[] sortedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    	assertArrayEquals(sortedArray, SortComparison.selectionSort(testArray), 0);
+    }
+    
+    @Test
+    public void testQuickSort() {
+    	double[] testArray = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    	double[] sortedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    	assertArrayEquals(sortedArray, SortComparison.quickSort(testArray), 0);
+    }
+    
+    // TODO: add more tests here. Each line of code and each decision in Collinear.java should
     // be executed at least once from at least one test.
 
     // ----------------------------------------------------------
