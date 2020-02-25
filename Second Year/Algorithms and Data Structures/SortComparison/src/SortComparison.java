@@ -64,7 +64,7 @@ class SortComparison {
 	 *
 	 */
 	static double[] quickSort (double a[]) {
-		return quickSort(shuffle(a), 0, a.length / 2);
+		return quickSort(shuffle(a), 0, a.length - 1);
 	}
 	
 	private static double[] quickSort(double a[], int low, int high) {
@@ -80,9 +80,7 @@ class SortComparison {
 		Random random = new Random();
 		for (int i = a.length - 1; i > 0; i--) {
 			int j = random.nextInt(i + 1);
-			double temp = a[i];
-			a[j] = a[i];
-			a[i] = temp;
+			swap(a, i, j);
 		}
 		return a;
 	}
@@ -90,13 +88,13 @@ class SortComparison {
 	private static int partition(double a[], int low, int high) {
 		double pivot = a[high];
 		int i = low - 1;
-		for (int j = low; j <= high - 1; j++) {
+		for (int j = low; j < high; j++) {
 			if (a[j] <= pivot) {
 				i++;
-				swap(a, j, i);
+				swap(a, i, j);
 			}
 		}
-		swap(a, i + 1, high);
+		swap(a, i+1, high);
 		return i + 1;
 	}
 	
@@ -124,25 +122,35 @@ class SortComparison {
 	 */
 
 	static double[] mergeSortIterative (double a[]) {
-		
-		
-		
-		
-		
-		
+		for (int currentSize = 1; currentSize <= a.length - 1; currentSize *= 2) {
+			for (int leftStart = 0; leftStart < a.length - 1; leftStart += (2 * currentSize)) {
+				int mid = Math.min(leftStart + currentSize - 1, a.length - 1);
+				int rightEnd = Math.min(leftStart + (2 * currentSize) - 1, a.length - 1);
+				merge(a, leftStart, mid, rightEnd);
+			}
+		}
 		return a;
 	}
 	
-	private void merge(double a[], int start, int middle, int end) {
+	private static void merge(double a[], int start, int middle, int end) {
 		int n1 = middle - start + 1;
 		int n2 = end - middle;
 		double[] left = new double[n1];
 		double[] right = new double[n2];
 		
-		for (int i = 0; i < middle; i++) left[i] = a[i];
-		for (int i = middle + 1; i < end; i++) right[i] = a[i];
+		for (int i = 0; i < n1; i++) left[i] = a[start + i];
+		for (int i = 0; i < n2; i++) right[i] = a[middle + i + 1];
 		
+		int i = 0, j = 0;
+		int k = start;
 		
+		while (i < n1 && j < n2) {
+			if (left[i] <= right[j]) a[k++] = left[i++];
+			else a[k++] = right[j++];
+		}
+		
+		while (i < n1) a[k++] = left[i++];
+		while (j < n2) a[k++] = right[j++];
 	}
 	
 	/**
@@ -153,6 +161,27 @@ class SortComparison {
 	 * @return after the method returns, the array must be in ascending sorted order.
 	 */
 	static double[] mergeSortRecursive (double a[]) {
+		if (a == null) return a;
+		
+		if (a.length > 1) {
+			int mid = a.length / 2;
+			double[] left = new double[mid];
+			for (int i = 0; i < mid; i++) left[i] = a[i];
+			
+			double[] right = new double[a.length - mid];
+			for (int i = mid; i < a.length; i++) right[i - mid] = a[i];
+			
+			mergeSortRecursive(left);
+			mergeSortRecursive(right);
+			
+			int i = 0; int j = 0; int k = 0;
+			while (i < left.length && j < right.length) {
+				if (left[i] < right[j]) a[k++] = left[i++];
+				else a[k++] = right[j++];
+			}
+			while (i < left.length) a[k++] = left[i++];
+			while (j < right.length) a[k++] = right[j++];
+		}
 		return a;
 	}
 
